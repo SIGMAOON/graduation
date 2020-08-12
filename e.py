@@ -70,8 +70,8 @@ def tracking():
     try:
         print('영상을 불러옵니다.')
         name = filename()
-        cap = cv2.VideoCapture(name)
-        #cap = cv2.VideoCapture('1.mp4')
+        #cap = cv2.VideoCapture(name)
+        cap = cv2.VideoCapture('1.mp4')
     except FileNotFoundError:
         print('불러오기 실패')
         return
@@ -83,12 +83,14 @@ def tracking():
     rgb = Position(screen)
     #print(rgb) #['white', 'white']로 나옴
     # 정확한 좌표를 못찾아서 일단 하드코딩
-    rgb = ['blue','blue']
+    rgb = ['white','blue']
     #print(rgb)
 
     # hsv_color.pickle 파일 불러온 후 변수 data에 저장
     f = open("hsv_colors.pkl", "rb")
     data = pickle.load(f)
+    #white범위#
+    data['white'] = [0,0,210],[255,20,255]
 
     #rgb를 hsv로 바꾸기
     for rgbs in data.keys():
@@ -98,6 +100,7 @@ def tracking():
         # 상대팀 색깔 hsv가져오기
         # if rgbs == rgb[1]:
     #upper와 lower설정
+
     lower = np.array(hsv2[0])
     upper = np.array(hsv2[1])
 
@@ -112,8 +115,9 @@ def tracking():
             hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
             # mask와 나머지 설정
             mask = cv2.inRange(hsv, lower, upper)
+            #mask2 = cv2.inRange(hsv, lower_white, upper_white)
             rest = cv2.bitwise_and(frame, frame, mask=mask)
-
+            #cv2.imshow('original',frame)
             cv2.imshow('my new video', rest)
 
             k=cv2.waitKey(1)
