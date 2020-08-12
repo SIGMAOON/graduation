@@ -9,6 +9,16 @@ import pickle
 import cv2
 import numpy as np
 from PIL import Image
+import os
+import fnmatch
+
+
+# 파일 이름 추출
+def filename():
+    for file in os.listdir('.'):
+        if fnmatch.fnmatch(file, '*.avi' or '*.mp4'):
+            return file
+
 
 #특정좌표에서 아군과 적군색상 rgb추출후 색상이름 리스트를 받환
 def Position(frame):
@@ -55,20 +65,13 @@ def Position(frame):
     return rgb #아군색상과 적군색상 이름
 
 
-"""안쓰는 함수 comment화
-# RGB값을 HSV값으로 변형하기 위한 함수
-def HSV(r, g, b):
-    color = np.uint8([[[b, g, r]]])
-    hsv_color = cv2.cvtColor(color, cv2.COLOR_BGR2HSV)
-    print('HSV for COLOR: ', hsv_color)
-"""
-
-
 def tracking():
     # 영상 불러오기
     try:
         print('영상을 불러옵니다.')
-        cap = cv2.VideoCapture('1.mp4')
+        name = filename()
+        cap = cv2.VideoCapture(name)
+        #cap = cv2.VideoCapture('1.mp4')
     except FileNotFoundError:
         print('불러오기 실패')
         return
@@ -110,39 +113,7 @@ def tracking():
             # mask와 나머지 설정
             mask = cv2.inRange(hsv, lower, upper)
             rest = cv2.bitwise_and(frame, frame, mask=mask)
-            """
-            # HSV에서 BGR로 가정할 범위를 정의함
-             lower_blue = np.array([110, 100, 100])
-             upper_blue = np.array([130, 255, 255])
-            
-             lower_green = np.array([50, 100, 100])
-             upper_green = np.array([70, 255, 255])
-            
-             lower_red = np.array([-10, 100, 100])
-             upper_red = np.array([10, 255, 255])
-            
-             # HSV 이미지에서 청색만, 또는 초록색만 또는 빨간색만 추출하기 위한 임계값
-             mask_blue = cv2.inRange(hsv, lower_blue, upper_blue)
-             mask_green = cv2.inRange(hsv, lower_green, upper_green)
-             mask_red = cv2.inRange(hsv, lower_red, upper_red)
 
-            # hsv의 모든 값을 lower_blue, upper_blue로 지정한 범위에 있는지 체크 후
-            # 범위에 해당하면 그 값 그대로, 아니면 0으로 채워서 반환
-
-            # mask와 원본 이미지를 비트 연산
-             res1 = cv2.bitwise_and(frame, frame, mask=mask_blue)
-             res2 = cv2.bitwise_and(frame, frame, mask=mask_green)
-             res3 = cv2.bitwise_and(frame, frame, mask=mask_red)
-            cv2.imshow('original', frame)
-             cv2.imshow('BLUE', res1)
-             cv2.imshow('GREEN', res2)
-             cv2.imshow('RED', res3)
-
-            lower_my = np.array([20, 100, 100])
-            upper_my = np.array([40, 255, 255])
-            mask_my = cv2.inRange(hsv, lower_my, upper_my)
-            res4 = cv2.bitwise_and(frame, frame, mask=mask_my)
-            """
             cv2.imshow('my new video', rest)
 
             k=cv2.waitKey(1)
@@ -161,16 +132,3 @@ def tracking():
 
 # main 코드
 tracking()
-"""
-# hsv(255, 110, 199)
-# 색 후보: 169 104 20
-# 169 79 20
-# 255 110 199: 내 색(핑크) RGB -> 162 145 255
-# 252 252 0: 상대 색(노랑) RGB -> 30 255 252
-
-# x = tap[0]
-# y = tap[1]
-# b = frame[x, y, 0]  # B Channel Value
-# g = frame[x, y, 1]  # G Channel Value
-# r = frame[x, y, 2]  # R Channel Value
-"""
