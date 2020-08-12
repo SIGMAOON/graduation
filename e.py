@@ -118,12 +118,13 @@ def tracking():
             #mask2 = cv2.inRange(hsv, lower_white, upper_white)
             rest = cv2.bitwise_and(frame, frame, mask=mask)
             #cv2.imshow('original',frame)
-            #cv2.imshow('my new video', rest)
+            cv2.imshow('my new video', rest)
             #width :  1920, height :  1080
-            dst = frame.copy()
-            middle = frame[300:400, 600:700]
-            dst[0:100, 0:100] = middle
-            cv2.imshow('middle?', dst)
+            #dst = frame.copy()
+            middle = rest[300:400, 600:700]
+            #dst[0:100, 0:100] = middle
+            #rest2 = cv2.bitwise_and(middle, middle, mask=mask)
+            cv2.imshow('middle', middle)
 
             k=cv2.waitKey(1)
             if k == 27 :
