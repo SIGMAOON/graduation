@@ -1,4 +1,4 @@
-#import
+
 import pickle
 import cv2
 import numpy as np
@@ -14,6 +14,12 @@ def filename():
             return file
         elif fnmatch.fnmatch(file, '*.avi'):
             return file
+
+def framecutting(framenumber = 20):
+    # 지정한 디렉토리 경로
+    path = 'C:\Users\gwon8\Desktop\졸업프로젝트'
+    for i in range(framenumber-5,framenumber+5):
+        cv2.imwrite(os.path.join(path , '오버워치.jpg')
 
 
 #특정좌표에서 아군과 적군색상 rgb추출후 색상이름 리스트를 받환
@@ -75,6 +81,7 @@ def tracking():
     sec =13
     cap.set(cv2.CAP_PROP_POS_MSEC, sec * 1000)
     ret, screen = cap.read()
+    framecutting(20)
     #색상추출
     rgb = Position(screen)
     #print(rgb) #['white', 'white']로 나옴
