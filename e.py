@@ -15,7 +15,7 @@ def filename():
         elif fnmatch.fnmatch(file, '*.avi'):
             return file
 
-def framecutting(framenumber = 20):
+def framecutting(framenumber):
     # 지정한 디렉토리 경로
     path = 'C:\Users\gwon8\Desktop\졸업프로젝트'
     for i in range(framenumber-5,framenumber+5):
