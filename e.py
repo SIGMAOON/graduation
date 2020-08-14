@@ -8,6 +8,7 @@ import fnmatch
 
 
 # 파일 이름 추출
+# 파일이 디렉토리내에 두개있으면 어떤걸 선택??????????
 def filename():
     for file in os.listdir('.'):
         if fnmatch.fnmatch(file, '*.mp4'):
@@ -15,12 +16,30 @@ def filename():
         elif fnmatch.fnmatch(file, '*.avi'):
             return file
 
+
 def framecutting(framenumber):
     # 지정한 디렉토리 경로
-    path = 'C:\Users\gwon8\Desktop\졸업프로젝트'
+    path = 'C:/Users/k96422/PycharmProjects/graduation/jpg'
+    try:
+        print('영상을 불러옵니다.')
+        name = filename()
+        cap = cv2.VideoCapture(name)
+    except FileNotFoundError:
+        print('불러오기 실패')
+        return
+    cap.set(cv2.CAP_PROP_POS_FRAMES, framenumber)
     for i in range(framenumber-5,framenumber+5):
-        cv2.imwrite(os.path.join(path , '오버워치.jpg')
-
+        ret, screen = cap.read()
+        if ret:
+            cv2.imwrite(os.path.join(path , '오버워치'+str(i)+'.jpg'), screen)
+            #print('오버워치.jpg')
+            k = cv2.waitKey(1)
+            if k == 27:
+                break
+        else:
+            print('error')
+    cap.release()
+    #cv2.destroyAllWindows()
 
 #특정좌표에서 아군과 적군색상 rgb추출후 색상이름 리스트를 받환
 def Position(frame):
@@ -81,7 +100,7 @@ def tracking():
     sec =13
     cap.set(cv2.CAP_PROP_POS_MSEC, sec * 1000)
     ret, screen = cap.read()
-    framecutting(20)
+    #framecutting(20)
     #색상추출
     rgb = Position(screen)
     #print(rgb) #['white', 'white']로 나옴
@@ -144,3 +163,4 @@ def tracking():
 
 # main 코드
 tracking()
+framecutting(10)
