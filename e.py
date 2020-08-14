@@ -16,7 +16,9 @@ import fnmatch
 # 파일 이름 추출
 def filename():
     for file in os.listdir('.'):
-        if fnmatch.fnmatch(file, '*.avi' or '*.mp4'):
+        if fnmatch.fnmatch(file, '*.mp4'):
+            return file
+        elif fnmatch.fnmatch(file, '*.avi'):
             return file
 
 
@@ -61,7 +63,7 @@ def Position(frame):
         elif (245, 105, 191) == rgb_frame.getpixel(tap):
             rgb.append('pink')
         else:
-            rgb.append('white')
+            rgb.append('x')
     return rgb #아군색상과 적군색상 이름
 
 
@@ -70,8 +72,8 @@ def tracking():
     try:
         print('영상을 불러옵니다.')
         name = filename()
-        #cap = cv2.VideoCapture(name)
-        cap = cv2.VideoCapture('1.mp4')
+        cap = cv2.VideoCapture(name)
+        #cap = cv2.VideoCapture('1.mp4')
     except FileNotFoundError:
         print('불러오기 실패')
         return
@@ -83,15 +85,14 @@ def tracking():
     rgb = Position(screen)
     #print(rgb) #['white', 'white']로 나옴
     # 정확한 좌표를 못찾아서 일단 하드코딩
-    rgb = ['white','blue']
+    rgb = ['x','blue']
     #print(rgb)
 
     # hsv_color.pickle 파일 불러온 후 변수 data에 저장
     f = open("hsv_colors.pkl", "rb")
     data = pickle.load(f)
-    #white범위#
-    data['white'] = [0,0,210],[255,20,255]
-
+    #x 색상 hsv범위#
+    data['x'] = [115,0,180],[145,20,235]
     #rgb를 hsv로 바꾸기
     for rgbs in data.keys():
         # 우리팀 색깔 hsv가져오기
@@ -118,7 +119,7 @@ def tracking():
             #mask2 = cv2.inRange(hsv, lower_white, upper_white)
             rest = cv2.bitwise_and(frame, frame, mask=mask)
             #cv2.imshow('original',frame)
-            cv2.imshow('my new video', rest)
+            #cv2.imshow('my new video', rest)
             #width :  1920, height :  1080
             #dst = frame.copy()
             middle = rest[300:400, 600:700]
