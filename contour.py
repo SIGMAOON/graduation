@@ -3,15 +3,9 @@ import numpy as np
 #가우시안 블러 + 캐니 디텍션 적용
 
 def Canny():
-    img = cv2.imread("jpg/overwatch275.jpg", cv2.IMREAD_COLOR)
-    img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    # 빨강색 outline 검출
-    lower = np.array([160, 30, 30], dtype="uint8")
-    upper = np.array([180, 255, 255], dtype="uint8")
-    mask = cv2.inRange(img_hsv, lower, upper)
-    img_color = cv2.bitwise_and(img_hsv, img_hsv, mask=mask)
+    img = cv2.imread("jpg/overwatch281.jpg", cv2.IMREAD_COLOR)
 
-    outline = cv2.Canny(img_color, 100, 200)
+    outline = cv2.Canny(img, 120, 230)
     cv2.imshow('canny', outline)
     while True:
         if cv2.waitKey(0) == 27:
