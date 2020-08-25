@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 import os
 import fnmatch
-
+import contour
 
 # 파일 이름 추출
 # **파일이 디렉토리내에 두개있으면 어떤걸 선택??????????
@@ -18,12 +18,13 @@ def filename():
 
 def dis(screen):
     #frame을 하나 가져와서 캐릭터와 에임사이의 픽셀거리를 알아냄
+    contour.Gray(screen)
     distance = 10
     return distance
 
 
 def framecutting(framenumber):
-    ad = [None] * 11 # 에임사이의 거리 11개를 저장할 리스트 (aim distance)
+    ad = [None] *11 # 에임사이의 거리 11개를 저장할 리스트 (aim distance)
     # 지정한 디렉토리 경로
     path = 'C:/Users/k96422/PycharmProjects/graduation/jpg'
     try:
@@ -34,20 +35,23 @@ def framecutting(framenumber):
         print('불러오기 실패')
         return
     cap.set(cv2.CAP_PROP_POS_FRAMES, framenumber)
+    j = 0
     for i in range(framenumber-5,framenumber+6):
         ret, screen = cap.read()
         if ret:
-            h = cv2.imwrite(os.path.join(path , 'overwatch'+str(i)+'.jpg'), screen) #저장되는지 확인 : 저장됨
+            #h = cv2.imwrite(os.path.join(path , 'overwatch'+str(i)+'.jpg'), screen) #저장되는지 확인 : 저장됨
             # 여기서 캐릭터와 에임사이의 거리를 뽑아내서 리스트에 저장?
             # 아니면 저장된 image를 하나씩 불러와서 확인?
-            ad.append(dis(screen))
-
+            distance = dis(screen)
+            ad[j] = distance
+            j = j+1
             k = cv2.waitKey(1)
             if k == 27:
                 break
         else:
             print('error')
     cap.release()
+    print(ad)
     return ad # 캐릭터와 에임사이의 거리를 저장한 리스트를 반환
 
 
@@ -150,10 +154,10 @@ def tracking():
             cv2.imshow('my new video', rest)
             # width :  1920, height :  1080 #frame.shape로 알아낸 것
             # dst = frame.copy()
-            # middle = rest[300:400, 600:700] #x위치를 framecut한것
+            #middle = rest[300:400, 600:700] #x위치를 framecut한것
             # dst[0:100, 0:100] = middle #왼쪽위에 imshow하고 싶을때 이거
             # rest2 = cv2.bitwise_and(middle, middle, mask=mask)
-            # cv2.imshow('middle', middle)
+            #cv2.imshow('middle', middle)
             k=cv2.waitKey(1)
             if k == 27 :
                 break
