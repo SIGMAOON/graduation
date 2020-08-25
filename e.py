@@ -141,6 +141,7 @@ def tracking():
     # 다시 0초부터 video 재생
     cap.set(cv2.CAP_PROP_POS_MSEC, 0)
     fl = [] # x가 발견되는 framenumber list
+    x = s = 0 #헤드샷 비율 count용 int
     while 1:
         # 재생되는 비디오를 한프레임씩 읽고, 정상적으로 읽으면 ret이 true
         # ret 값을 체크해서 비디오 프레임을 제대로 읽엇는지 확인 가능
@@ -149,7 +150,11 @@ def tracking():
             # # BGR을 HSV모드로 전환
             hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
             # x표시나 해골표시가 match되면 fl list에 현재 framenumber추가
-            if contour.xMatch(frame) or contour.skullMatch(frame):
+            if contour.xMatch(frame):
+                x = x+1
+                fl.append(cap.get(cv2.CAP_PROP_POS_FRAMES))
+            if contour.skullMatch(frame):
+                s = s+1
                 fl.append(cap.get(cv2.CAP_PROP_POS_FRAMES))
 
             # mask와 나머지 설정
@@ -175,14 +180,16 @@ def tracking():
     cap.release()
     cv2.destroyAllWindows()
     f.close()
-    return fl
+
+    ratio = s/(x+s)
+    return fl, ratio
 
 
 def main():
     # main 코드
     #distance = []
     #x또는 해골표시가 나타난 framenumber list
-    framenumber=tracking()
+    framenumber, ratio=tracking()
     #distance feature를 받을 2차원 배열
     distance = [[0 for col in range(11)] for row in range(len(framenumber))]
     j=0
@@ -190,6 +197,6 @@ def main():
     for i in framenumber:
         distance[j]= framecutting(i)
         j =j+1
-    #feature 값 distance 반환
-    return distance
+    #feature 값 distance와 헤드샷 비율 반환
+    return distance, ratio
 
