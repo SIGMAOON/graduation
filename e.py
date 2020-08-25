@@ -140,6 +140,7 @@ def tracking():
 
     # 다시 0초부터 video 재생
     cap.set(cv2.CAP_PROP_POS_MSEC, 0)
+    fl = [] # x가 발견되는 framenumber list
     while 1:
         # 재생되는 비디오를 한프레임씩 읽고, 정상적으로 읽으면 ret이 true
         # ret 값을 체크해서 비디오 프레임을 제대로 읽엇는지 확인 가능
@@ -147,6 +148,8 @@ def tracking():
         if ret:
             # # BGR을 HSV모드로 전환
             hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+            if contour.Match(frame):
+                fl.append(cap.get(cv2.CAP_PROP_POS_FRAMES))
             # mask와 나머지 설정
             mask = cv2.inRange(hsv, lower, upper)
             rest = cv2.bitwise_and(frame, frame, mask=mask)
@@ -154,7 +157,7 @@ def tracking():
             cv2.imshow('my new video', rest)
             # width :  1920, height :  1080 #frame.shape로 알아낸 것
             # dst = frame.copy()
-            #middle = rest[300:400, 600:700] #x위치를 framecut한것
+            #middle = rest[340:380, 620:670] #x위치를 framecut한것
             # dst[0:100, 0:100] = middle #왼쪽위에 imshow하고 싶을때 이거
             # rest2 = cv2.bitwise_and(middle, middle, mask=mask)
             #cv2.imshow('middle', middle)
@@ -166,6 +169,7 @@ def tracking():
         else:
             break
     # memory release
+    print(fl)
     cap.release()
     cv2.destroyAllWindows()
     f.close()

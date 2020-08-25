@@ -1,20 +1,40 @@
 import cv2
 import numpy as np
-#가우시안 블러 + 캐니 디텍션 적용
+import os
 
-def Canny():
+# x인식1 -outline따기
+def Outline():
     img = cv2.imread("jpg/overwatch281.jpg", cv2.IMREAD_COLOR)
 
-    outline = cv2.Canny(img, 120, 230)
-    cv2.imshow('canny', outline)
+    outline = cv2.Canny(img, 390, 430)
+    # fill in?
+    middle = outline[340:380, 620:670]
+    cv2.imshow('canny', middle)
+
     while True:
         if cv2.waitKey(0) == 27:
             cv2.destroyWindow('image')
             break
     return
 
-Canny()
 
+# x인식2 - outline인식하기
+def Match(img):
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    #outline = cv2.Canny(img, 390, 430)
+    img_gray = img_gray[330:390, 610:670]
+    template = cv2.imread("jpg/x.jpg", 0)
+
+    res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
+    threshold = 0.5
+    loc = np.where(res >= threshold)
+    # 유사도가 0.5이상이면 true를 return
+    for pt in zip(*loc[::-1]):
+        return True
+    else:
+        return False
+
+"""
 def Gray(screen):
     #img = cv2.imread("jpg/overwatch275.jpg", cv2.IMREAD_COLOR)
     img_hsv = cv2.cvtColor(screen, cv2.COLOR_BGR2HSV)
@@ -59,10 +79,7 @@ def Gray(screen):
             cv2.destroyWindow('image')
             break
     return
-
-
-#Gray()
-
+"""
 """
 def Contour():
     img = cv2.imread("jpg/overwatch275.jpg", cv2.IMREAD_COLOR)
@@ -105,4 +122,4 @@ def Contour():
             break
     return
 
-#Contour()"""
+"""
