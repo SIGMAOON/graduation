@@ -18,7 +18,7 @@ def filename():
 
 def dis(screen):
     #frame을 하나 가져와서 캐릭터와 에임사이의 픽셀거리를 알아냄
-    contour.Gray(screen)
+
     distance = 10
     return distance
 
@@ -39,7 +39,7 @@ def framecutting(framenumber):
     for i in range(framenumber-5,framenumber+6):
         ret, screen = cap.read()
         if ret:
-            #h = cv2.imwrite(os.path.join(path , 'overwatch'+str(i)+'.jpg'), screen) #저장되는지 확인 : 저장됨
+            h = cv2.imwrite(os.path.join(path , 'overwatch'+str(i)+'.jpg'), screen) #저장되는지 확인 : 저장됨
             # 여기서 캐릭터와 에임사이의 거리를 뽑아내서 리스트에 저장?
             # 아니면 저장된 image를 하나씩 불러와서 확인?
             distance = dis(screen)
@@ -177,4 +177,4 @@ def tracking():
 
 # main 코드
 tracking()
-#framecutting(280)
+#framecutting(505)
