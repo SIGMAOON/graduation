@@ -1,4 +1,3 @@
-
 import pickle
 import cv2
 import numpy as np
@@ -17,7 +16,14 @@ def filename():
             return file
 
 
+def dis(screen):
+    #frame을 하나 가져와서 캐릭터와 에임사이의 픽셀거리를 알아냄
+    distance = 10
+    return distance
+
+
 def framecutting(framenumber):
+    ad = [None] * 11 # 에임사이의 거리 11개를 저장할 리스트 (aim distance)
     # 지정한 디렉토리 경로
     path = 'C:/Users/k96422/PycharmProjects/graduation/jpg'
     try:
@@ -28,18 +34,22 @@ def framecutting(framenumber):
         print('불러오기 실패')
         return
     cap.set(cv2.CAP_PROP_POS_FRAMES, framenumber)
-    for i in range(framenumber-5,framenumber+5):
+    for i in range(framenumber-5,framenumber+6):
         ret, screen = cap.read()
         if ret:
-            h = cv2.imwrite(os.path.join(path , 'overwatch'+str(i)+'.jpg'), screen)
-            print(h)
+            h = cv2.imwrite(os.path.join(path , 'overwatch'+str(i)+'.jpg'), screen) #저장되는지 확인 : 저장됨
+            # 여기서 캐릭터와 에임사이의 거리를 뽑아내서 리스트에 저장?
+            # 아니면 저장된 image를 하나씩 불러와서 확인?
+            ad.append(dis(screen))
+
             k = cv2.waitKey(1)
             if k == 27:
                 break
         else:
             print('error')
     cap.release()
-    # cv2.destroyAllWindows()
+    return ad # 캐릭터와 에임사이의 거리를 저장한 리스트를 반환
+
 
 # 특정좌표에서 아군과 적군색상 rgb추출후 색상이름 리스트를 받환
 def Position(frame):
@@ -103,25 +113,24 @@ def tracking():
     # framecutting(20)
     # 색상추출
     rgb = Position(screen)
-    # print(rgb) #['white', 'white']로 나옴
-    # 정확한 좌표를 못찾아서 일단 하드코딩
-    rgb = ['x','blue']
     # print(rgb)
+    # 정확한 좌표를 못찾아서 일단 하드코딩
+    rgb = ['red','blue']
 
     # hsv_color.pickle 파일 불러온 후 변수 data에 저장
     f = open("hsv_colors.pkl", "rb")
     data = pickle.load(f)
-    # x 색상 hsv범위#
+    # x 색상 hsv범위 #
     data['x'] = [115,0,180],[145,20,235]
     # rgb를 hsv로 바꾸기
     for rgbs in data.keys():
         # 우리팀 색깔 hsv가져오기
         if rgbs == rgb[0]:
             hsv2 = data[rgbs]
-        # 상대팀 색깔 hsv가져오기
+        # 상대팀 색깔 hsv가져오기 - 일단 패스
         # if rgbs == rgb[1]:
-    # upper와 lower설정
 
+    # upper와 lower설정
     lower = np.array(hsv2[0])
     upper = np.array(hsv2[1])
 
@@ -136,16 +145,15 @@ def tracking():
             hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
             # mask와 나머지 설정
             mask = cv2.inRange(hsv, lower, upper)
-            # mask2 = cv2.inRange(hsv, lower_white, upper_white)
             rest = cv2.bitwise_and(frame, frame, mask=mask)
             # cv2.imshow('original',frame)
-            # cv2.imshow('my new video', rest)
-            # width :  1920, height :  1080
+            cv2.imshow('my new video', rest)
+            # width :  1920, height :  1080 #frame.shape로 알아낸 것
             # dst = frame.copy()
-            middle = rest[300:400, 600:700]
-            # dst[0:100, 0:100] = middle
+            # middle = rest[300:400, 600:700] #x위치를 framecut한것
+            # dst[0:100, 0:100] = middle #왼쪽위에 imshow하고 싶을때 이거
             # rest2 = cv2.bitwise_and(middle, middle, mask=mask)
-            cv2.imshow('middle', middle)
+            # cv2.imshow('middle', middle)
             k=cv2.waitKey(1)
             if k == 27 :
                 break
@@ -158,6 +166,7 @@ def tracking():
     cv2.destroyAllWindows()
     f.close()
 
+
 # main 코드
 tracking()
-framecutting(10)
+#framecutting(280)
