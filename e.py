@@ -150,11 +150,11 @@ def tracking():
             # # BGR을 HSV모드로 전환
             hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
             # x표시나 해골표시가 match되면 fl list에 현재 framenumber추가
-            if contour.xMatch(frame):
-                x = x+1
-                fl.append(cap.get(cv2.CAP_PROP_POS_FRAMES))
             if contour.skullMatch(frame):
                 s = s+1
+                fl.append(cap.get(cv2.CAP_PROP_POS_FRAMES))
+            elif contour.xMatch(frame):
+                x = x+1
                 fl.append(cap.get(cv2.CAP_PROP_POS_FRAMES))
 
             # mask와 나머지 설정
