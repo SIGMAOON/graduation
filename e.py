@@ -148,13 +148,15 @@ def tracking():
         if ret:
             # # BGR을 HSV모드로 전환
             hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-            if contour.Match(frame):
+            # x표시나 해골표시가 match되면 fl list에 현재 framenumber추가
+            if contour.xMatch(frame) or contour.skullMatch(frame):
                 fl.append(cap.get(cv2.CAP_PROP_POS_FRAMES))
+
             # mask와 나머지 설정
             mask = cv2.inRange(hsv, lower, upper)
             rest = cv2.bitwise_and(frame, frame, mask=mask)
             # cv2.imshow('original',frame)
-            cv2.imshow('my new video', rest)
+            #cv2.imshow('my new video', rest)
             # width :  1920, height :  1080 #frame.shape로 알아낸 것
             # dst = frame.copy()
             #middle = rest[340:380, 620:670] #x위치를 framecut한것
@@ -169,12 +171,25 @@ def tracking():
         else:
             break
     # memory release
-    print(fl)
+    #print(fl)
     cap.release()
     cv2.destroyAllWindows()
     f.close()
+    return fl
 
 
-# main 코드
-tracking()
-#framecutting(505)
+def main():
+    # main 코드
+    #distance = []
+    #x또는 해골표시가 나타난 framenumber list
+    framenumber=tracking()
+    #distance feature를 받을 2차원 배열
+    distance = [[0 for col in range(11)] for row in range(len(framenumber))]
+    j=0
+    #각각 framenumber에 대해 앞뒤 10개를 돌려서 distance를 받음
+    for i in framenumber:
+        distance[j]= framecutting(i)
+        j =j+1
+    #feature 값 distance 반환
+    return distance
+

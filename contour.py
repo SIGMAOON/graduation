@@ -20,8 +20,9 @@ def Outline():
 
 #Outline()
 
+
 # x인식2 - outline인식하기
-def Match(img):
+def xMatch(img):
     #img = cv2.imread("jpg/overwatch281.jpg", cv2.IMREAD_COLOR)
     #img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     outline = cv2.Canny(img, 390, 430)
@@ -37,6 +38,52 @@ def Match(img):
     else:
         return False
 
+def skullimg():
+    img = cv2.imread("jpg/overwatch304.jpg", cv2.IMREAD_COLOR)
+    img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    # 빨강색 outline 검출
+    lower = np.array([160, 30, 30], dtype="uint8")
+    upper = np.array([200, 255, 255], dtype="uint8")
+    mask = cv2.inRange(img_hsv, lower, upper)
+    img_color = cv2.bitwise_and(img_hsv, img_hsv, mask=mask)
+    img_rgb = cv2.cvtColor(img_color, cv2.COLOR_HSV2BGR)
+    img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
+    #middle = img_gray[310:400, 590:690]
+    middle = img_gray[330:380, 610:670]
+    cv2.imshow('skull', middle)
+    path = 'C:/Users/k96422/PycharmProjects/graduation/jpg'
+    h = cv2.imwrite(os.path.join(path, 'skull2.jpg'), middle)
+    while True:
+        if cv2.waitKey(0) == 27:
+            cv2.destroyWindow('image')
+            break
+    return
+#skullimg()
+
+def skullMatch(screen):
+    #img = cv2.imread("jpg/overwatch304.jpg", cv2.IMREAD_COLOR)
+    img_hsv = cv2.cvtColor(screen, cv2.COLOR_BGR2HSV)
+    # 빨강색 outline 검출
+    lower = np.array([160, 30, 30], dtype="uint8")
+    upper = np.array([200, 255, 255], dtype="uint8")
+    mask = cv2.inRange(img_hsv, lower, upper)
+    img_color = cv2.bitwise_and(img_hsv, img_hsv, mask=mask)
+    img_rgb = cv2.cvtColor(img_color, cv2.COLOR_HSV2BGR)
+    img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
+    outline = img_gray[310:400, 590:690]
+
+    template = cv2.imread("jpg/skull.jpg", 0)
+
+    res = cv2.matchTemplate(outline, template, cv2.TM_CCOEFF_NORMED)
+    threshold = 0.5
+    loc = np.where(res >= threshold)
+    # 유사도가 0.5이상이면 true를 return
+    for pt in zip(*loc[::-1]):
+        return True
+    else:
+        return False
+
+#print(skullMatch())
 #print(Match())
 
 """
