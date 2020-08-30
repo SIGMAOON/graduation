@@ -36,7 +36,7 @@ def framecutting(framenumber):
         return
     cap.set(cv2.CAP_PROP_POS_FRAMES, framenumber)
     j = 0
-    for i in range(framenumber-5,framenumber+6):
+    for i in range(int(framenumber-5),int(framenumber+6)):
         ret, screen = cap.read()
         if ret:
             h = cv2.imwrite(os.path.join(path , 'overwatch'+str(i)+'.jpg'), screen) #저장되는지 확인 : 저장됨
@@ -147,15 +147,16 @@ def tracking():
         # ret 값을 체크해서 비디오 프레임을 제대로 읽엇는지 확인 가능
         ret, frame = cap.read()
         if ret:
+            framenumber = cap.get(cv2.CAP_PROP_POS_FRAMES)
             # # BGR을 HSV모드로 전환
             hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
             # x표시나 해골표시가 match되면 fl list에 현재 framenumber추가
             if contour.skullMatch(frame):
                 s = s+1
-                fl.append(cap.get(cv2.CAP_PROP_POS_FRAMES))
+                fl.append(framenumber)
             elif contour.xMatch(frame):
                 x = x+1
-                fl.append(cap.get(cv2.CAP_PROP_POS_FRAMES))
+                fl.append(framenumber)
 
             # mask와 나머지 설정
             mask = cv2.inRange(hsv, lower, upper)
@@ -181,22 +182,26 @@ def tracking():
     cv2.destroyAllWindows()
     f.close()
 
-    ratio = s/(x+s)
-    return fl, ratio
+#    ratio = s/(x+s)
+    return fl
+        #, ratio
 
 
 def main():
     # main 코드
     #distance = []
     #x또는 해골표시가 나타난 framenumber list
-    framenumber, ratio=tracking()
+    framelist = tracking()
+ #       , ratio=tracking()
     #distance feature를 받을 2차원 배열
-    distance = [[0 for col in range(11)] for row in range(len(framenumber))]
+    distance = [[0 for col in range(11)] for row in range(len(framelist))]
     j=0
     #각각 framenumber에 대해 앞뒤 10개를 돌려서 distance를 받음
-    for i in framenumber:
+    for i in framelist:
         distance[j]= framecutting(i)
         j =j+1
     #feature 값 distance와 헤드샷 비율 반환
-    return distance, ratio
+    return distance
+        #, ratio
 
+main()
