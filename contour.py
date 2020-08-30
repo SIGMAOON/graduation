@@ -8,10 +8,11 @@ def Outline():
 
     outline = cv2.Canny(img, 390, 430)
     # fill in?
-    middle = outline[330:390, 610:670]
-    cv2.imshow('canny', middle)
+    #middle = outline[330:390, 610:670]
+    cv2.imshow('canny', outline)
     path = 'C:/Users/k96422/PycharmProjects/graduation/jpg'
-    h = cv2.imwrite(os.path.join(path , 'x2.jpg'), middle)
+    #h = cv2.imwrite(os.path.join(path , 'x2.jpg'), middle)
+
     while True:
         if cv2.waitKey(0) == 27:
             cv2.destroyWindow('image')
@@ -24,19 +25,40 @@ def Outline():
 # x인식2 - outline인식하기
 def xMatch(img):
     #img = cv2.imread("jpg/overwatch281.jpg", cv2.IMREAD_COLOR)
-    #img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    outline = cv2.Canny(img, 390, 430)
-    outline = outline[330:390, 610:670]
-    template = cv2.imread("jpg/x.jpg", 0)
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    outline = cv2.Canny(img_gray, 390, 430)
+    """img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    lower = np.array([0,0,255], dtype="uint8")
+    upper = np.array([145, 255, 255], dtype="uint8")
+    mask = cv2.inRange(img, lower, upper)
+    outline = cv2.bitwise_and(img, img, mask=mask)"""
 
+    """outline = cv2.cvtColor(outline, cv2.COLOR_HSV2BGR)
+    outline = cv2.cvtColor(outline, cv2.COLOR_BGR2GRAY)"""
+
+    #outline = img_gray[330:390, 610:670]
+    template = cv2.imread("jpg/xxx1.jpg", 0)
+    #print(template.shape)
+    #template = cv2.Canny(template,390,420)
+    #resize_template = template.resize((int(template.size[0] / 4), int(template.size[1] / 4)), 0)
+    #resize_template = cv2.resize(template,(40,50))
+    """cv2.imshow("outline", template)
+    while True:
+        if cv2.waitKey(0) == 27:
+            cv2.destroyWindow('image')
+            break
+    #return"""
     res = cv2.matchTemplate(outline, template, cv2.TM_CCOEFF_NORMED)
-    threshold = 0.3
+    threshold = 0.5
     loc = np.where(res >= threshold)
     # 유사도가 0.5이상이면 true를 return
     for pt in zip(*loc[::-1]):
         return True
-    else:
-        return False
+    return False
+
+
+#print(xMatch())
+
 
 def skullimg():
     img = cv2.imread("jpg/overwatch304.jpg", cv2.IMREAD_COLOR)
@@ -60,9 +82,9 @@ def skullimg():
     return
 #skullimg()
 
-def skullMatch(screen):
+def skullMatch(img):
     #img = cv2.imread("jpg/overwatch304.jpg", cv2.IMREAD_COLOR)
-    img_hsv = cv2.cvtColor(screen, cv2.COLOR_BGR2HSV)
+    img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     # 빨강색 outline 검출
     lower = np.array([160, 30, 30], dtype="uint8")
     upper = np.array([200, 255, 255], dtype="uint8")
@@ -80,16 +102,15 @@ def skullMatch(screen):
     # 유사도가 0.5이상이면 true를 return
     for pt in zip(*loc[::-1]):
         return True
-    else:
-        return False
+    return False
 
 #print(skullMatch())
 #print(Match())
 
 """
-def Gray(screen):
-    #img = cv2.imread("jpg/overwatch275.jpg", cv2.IMREAD_COLOR)
-    img_hsv = cv2.cvtColor(screen, cv2.COLOR_BGR2HSV)
+def Gray():
+    img = cv2.imread("jpg/overwatch283.jpg", cv2.IMREAD_COLOR)
+    img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     #빨강색 outline 검출
     lower = np.array([170, 30, 30], dtype="uint8")
     upper = np.array([180, 255, 255], dtype="uint8")
@@ -132,6 +153,9 @@ def Gray(screen):
             break
     return
 """
+#Gray()
+
+
 """
 def Contour():
     img = cv2.imread("jpg/overwatch275.jpg", cv2.IMREAD_COLOR)
@@ -174,4 +198,14 @@ def Contour():
             break
     return
 
+
+def test():
+    distance = [[0 for col in range(5)] for row in range(3)]
+    #3*5행렬?
+    j = 0
+    for i in range(3,9,3):
+        distance[j]= [10,10,10,10,10]
+        j =j+1
+    print(distance)
+#test()
 """

@@ -6,6 +6,7 @@ import os
 import fnmatch
 import contour
 
+
 # 파일 이름 추출
 # **파일이 디렉토리내에 두개있으면 어떤걸 선택??????????
 def filename():
@@ -18,7 +19,8 @@ def filename():
 
 def dis(screen):
     #frame을 하나 가져와서 캐릭터와 에임사이의 픽셀거리를 알아냄
-
+    #여기에 지원이 코드 삽입해줘
+    #캐릭터와 에임사이 거리 알아내는 므찐 코드
     distance = 10
     return distance
 
@@ -28,7 +30,7 @@ def framecutting(framenumber):
     # 지정한 디렉토리 경로
     path = 'C:/Users/k96422/PycharmProjects/graduation/jpg'
     try:
-        print('영상을 불러옵니다.')
+        #print('영상을 불러옵니다.')
         name = filename()
         cap = cv2.VideoCapture(name)
     except FileNotFoundError:
@@ -36,10 +38,11 @@ def framecutting(framenumber):
         return
     cap.set(cv2.CAP_PROP_POS_FRAMES, framenumber)
     j = 0
-    for i in range(framenumber-5,framenumber+6):
+    for i in range(int(framenumber-5),int(framenumber+6)):
         ret, screen = cap.read()
         if ret:
-            h = cv2.imwrite(os.path.join(path , 'overwatch'+str(i)+'.jpg'), screen) #저장되는지 확인 : 저장됨
+            # 저장되는지 확인 : 저장됨
+            #h = cv2.imwrite(os.path.join(path , 'overwatch'+str(i)+'.jpg'), screen)
             # 여기서 캐릭터와 에임사이의 거리를 뽑아내서 리스트에 저장?
             # 아니면 저장된 image를 하나씩 불러와서 확인?
             distance = dis(screen)
@@ -51,7 +54,7 @@ def framecutting(framenumber):
         else:
             print('error')
     cap.release()
-    print(ad)
+    #print(ad)
     return ad # 캐릭터와 에임사이의 거리를 저장한 리스트를 반환
 
 
@@ -125,7 +128,7 @@ def tracking():
     f = open("hsv_colors.pkl", "rb")
     data = pickle.load(f)
     # x 색상 hsv범위 #
-    data['x'] = [115,0,180],[145,20,235]
+    #data['x'] = [115,0,180],[145,20,235]
     # rgb를 hsv로 바꾸기
     for rgbs in data.keys():
         # 우리팀 색깔 hsv가져오기
@@ -147,15 +150,16 @@ def tracking():
         # ret 값을 체크해서 비디오 프레임을 제대로 읽엇는지 확인 가능
         ret, frame = cap.read()
         if ret:
+            framenumber=cap.get(cv2.CAP_PROP_POS_FRAMES)
             # # BGR을 HSV모드로 전환
             hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
             # x표시나 해골표시가 match되면 fl list에 현재 framenumber추가
             if contour.skullMatch(frame):
                 s = s+1
-                fl.append(cap.get(cv2.CAP_PROP_POS_FRAMES))
+                fl.append(framenumber)
             elif contour.xMatch(frame):
                 x = x+1
-                fl.append(cap.get(cv2.CAP_PROP_POS_FRAMES))
+                fl.append(framenumber)
 
             # mask와 나머지 설정
             mask = cv2.inRange(hsv, lower, upper)
@@ -168,35 +172,41 @@ def tracking():
             # dst[0:100, 0:100] = middle #왼쪽위에 imshow하고 싶을때 이거
             # rest2 = cv2.bitwise_and(middle, middle, mask=mask)
             #cv2.imshow('middle', middle)
-            k=cv2.waitKey(1)
+            """k=cv2.waitKey(1)
             if k == 27 :
-                break
+                break"""
 
         # frame 읽기에 문제가 발생하면
         else:
             break
     # memory release
-    #print(fl)
+    print(fl)
+    print(s,x)
     cap.release()
     cv2.destroyAllWindows()
     f.close()
 
-    ratio = s/(x+s)
-    return fl, ratio
+    #ratio = s/(x+s)
+    return fl
+        #, ratio
 
 
 def main():
     # main 코드
     #distance = []
     #x또는 해골표시가 나타난 framenumber list
-    framenumber, ratio=tracking()
+    #framenumber, ratio=tracking()
+    framelist = tracking()
     #distance feature를 받을 2차원 배열
-    distance = [[0 for col in range(11)] for row in range(len(framenumber))]
+    distance = [[0 for col in range(11)] for row in range(len(framelist))]
     j=0
     #각각 framenumber에 대해 앞뒤 10개를 돌려서 distance를 받음
-    for i in framenumber:
+    for i in framelist:
         distance[j]= framecutting(i)
         j =j+1
     #feature 값 distance와 헤드샷 비율 반환
-    return distance, ratio
+    return distance
+        #, ratio
 
+main()
+#tracking()
