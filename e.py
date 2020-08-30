@@ -150,7 +150,10 @@ def tracking():
         # ret 값을 체크해서 비디오 프레임을 제대로 읽엇는지 확인 가능
         ret, frame = cap.read()
         if ret:
+
+
             framenumber=cap.get(cv2.CAP_PROP_POS_FRAMES)
+
             # # BGR을 HSV모드로 전환
             hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
             # x표시나 해골표시가 match되면 fl list에 현재 framenumber추가
@@ -186,7 +189,9 @@ def tracking():
     cv2.destroyAllWindows()
     f.close()
 
+
     #ratio = s/(x+s)
+
     return fl
         #, ratio
 
@@ -195,8 +200,10 @@ def main():
     # main 코드
     #distance = []
     #x또는 해골표시가 나타난 framenumber list
+
     #framenumber, ratio=tracking()
     framelist = tracking()
+
     #distance feature를 받을 2차원 배열
     distance = [[0 for col in range(11)] for row in range(len(framelist))]
     j=0
@@ -208,5 +215,7 @@ def main():
     return distance
         #, ratio
 
+
 main()
 #tracking()
+
