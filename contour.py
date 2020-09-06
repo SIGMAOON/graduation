@@ -3,11 +3,9 @@ import numpy as np
 import os
 
 # x인식1 -outline따기
-def Outline():
+def x_Outline():
     img = cv2.imread("jpg/overwatch297.jpg", cv2.IMREAD_COLOR)
-
     outline = cv2.Canny(img, 390, 430)
-    # fill in?
     #middle = outline[330:390, 610:670]
     cv2.imshow('canny', outline)
     path = 'C:/Users/k96422/PycharmProjects/graduation/jpg'
@@ -18,8 +16,7 @@ def Outline():
             cv2.destroyWindow('image')
             break
     return
-
-#Outline()
+#x_Outline()
 
 
 # x인식2 - outline인식하기
@@ -55,12 +52,10 @@ def xMatch(img):
     for pt in zip(*loc[::-1]):
         return True
     return False
-
-
 #print(xMatch())
 
 
-def skullimg():
+def skull_Outline():
     img = cv2.imread("jpg/overwatch304.jpg", cv2.IMREAD_COLOR)
     img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     # 빨강색 outline 검출
@@ -80,7 +75,7 @@ def skullimg():
             cv2.destroyWindow('image')
             break
     return
-#skullimg()
+
 
 def skullMatch(img):
     #img = cv2.imread("jpg/overwatch304.jpg", cv2.IMREAD_COLOR)
