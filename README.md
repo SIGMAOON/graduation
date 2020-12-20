@@ -14,6 +14,8 @@ KFC의 알고리즘은 다음과 같습니다.
 4. 이전프레임과의 거리의 차 10개를 선형 머신에 넣고 돌려, 보통범위 내의 값인지, 아니면 이상이 있는 값인지를 확인한다.
 5. 이상이 있을 경우 hack임을 , 이상이 없을 경우 normal user임을 output으로 알려준다.
 
+![image](https://user-images.githubusercontent.com/45477589/102713470-d4462480-430b-11eb-9c63-3a4f5311ebef.png)
+
 main-> getframe -> get feature -> distance -> machine learning
 추가적으로 이해를 도울 sequence diagram을 첨부했습니다.
 
