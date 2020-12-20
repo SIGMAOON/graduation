@@ -17,10 +17,11 @@ KFC의 알고리즘은 다음과 같습니다.
 main-> getframe -> get feature -> distance -> machine learning     
 추가적으로 이해를 도울 sequence diagram을 첨부했습니다.     
 ![image](https://user-images.githubusercontent.com/45477589/102713470-d4462480-430b-11eb-9c63-3a4f5311ebef.png)     
-
-test를 위한 동영상과 weights파일은 원드라이브에 있어, 링크를 첨부했습니다.     
+   
      
 이하는 설치 및 구동 매뉴얼입니다. 프로젝트를 사용해 보고 싶으시다면 읽고 따라해보세요.    
+test를 위한 동영상과 weights파일은 원드라이브에 있어, 링크를 첨부했습니다.  
+       
 1. 구글 colaboratory 사이트에 접속합니다.     
 https://colab.research.google.com/      
 2. 팝업창의 우측 하단에 있는 새 노트를 클릭합니다.     
