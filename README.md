@@ -24,19 +24,19 @@ https://colab.research.google.com/
 2. 팝업창의 우측 하단에 있는 새 노트를 클릭합니다.     
 3. 상단메뉴의 런타임 - 런타임 유형 변경에서 하드웨어 가속기를 GPU로 변경합니다.     
 4. graduation 폴더 github로부터 가져옵니다.(git clone 코드를 colab에 입력)       
-### !git clone https://github.com/SIGMAOON/graduation.git      
+##### !git clone https://github.com/SIGMAOON/graduation.git      
 5. 이때 colab의 경로 이동 문제가 발생하므로 graduation 폴더 밖으로 파일들 이동합니다. (mv 코드를 입력)     
-### !mv graduation/* ./     
+##### !mv graduation/* ./     
 6. video 파일을 다운로드 후 압축을 풀어 data/video/ 경로에 넣습니다.     
 https://hongik-my.sharepoint.com/:u:/g/personal/chiseungii_mail_hongik_ac_kr/EYuiHx2_ondCh70K9z_yLXcB5UJvtRAcDCrDQTFTMgOgJw?e=Y41ydX      
 7. weights 파일 다운로드 후 압축 풀어서 weights/ 경로에 넣습니다.       
 https://hongik-my.sharepoint.com/:u:/g/personal/chiseungii_mail_hongik_ac_kr/EUI8K6izM81Ku42lVxOuEUYB0hpMN0mg8saShrBRMLRgdA?e=XqYzMM       
 8. 프로그램을 실행합니다.(pythoh 실행코드를 입력)       
-### !python KFC.py      
+##### !python KFC.py      
 9. 영상 이름을 뒤에 확장자까지 입력합니다. (exam_normal.mp4은 정상유저의 영상, exam_hack.mp4은 핵유저의 영상)      
 ex)
-### exam_normal.mp4        
+##### exam_normal.mp4        
 10. weights 파일 이름도 뒤에 확장자까지 입력합니다.       
 (obj_test_64000.weights은 프로젝트의 알고리즘 실행이 잘 보이도록 해당영상만을 학습한 파일, yolov3_51000.weights은 기존에 학습한 파일)          
 ex)
-### obj_test_64000.weights      
+##### obj_test_64000.weights      
