@@ -12,7 +12,7 @@ KFC의 알고리즘은 다음과 같습니다.
 2. 프레임마다 weights파일을 이용해 YOLO를 매칭시켜, 영웅이 존재하는지, death-sign이 존재하는지 detect한다
 3. 만약 death-sign이 발견되면 그 전의 10프레임을 확인해, 각 프레임마다 영웅과 aim 사이의 거리를 추출한다.
 4. 이전프레임과의 거리의 차 10개를 선형 머신에 넣고 돌려, 보통범위 내의 값인지, 아니면 이상이 있는 값인지를 확인한다.
-5. 이상이 있을 경우 hack임을 , 이상이 없을 경우 normal user임을 output한다.
+5. 이상이 있을 경우 hack임을 , 이상이 없을 경우 normal user임을 output으로 알려준다.
 
 main-> getframe -> get feature -> distance -> machine learning
 추가적으로 이해를 도울 sequence diagram을 첨부했습니다.
