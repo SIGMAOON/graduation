@@ -3,6 +3,7 @@
 KFC는 오버워치 불법 프로그램 사용자를 잡아주는 프로그램입니다.        
 오픈소스인 yolo를 기반으로 오버워치 영웅들을 인식하고, linear regression을 이용하여 불법 프로그램 사용 여부를 판단해줍니다.     
 약 25000장을 labelling하여 데이터를 생성하였고 약 5만번 정도의 training이 된 weight파일을 사용합니다.     
+#### 이 프로젝트는 pytorch가 설치된 local pc와 gpu가 지원되는 colab에서 지원됩니다.    
      
 ### KFC의 알고리즘은 다음과 같습니다.      
       
@@ -16,7 +17,7 @@ main-> getframe -> get feature -> distance -> machine learning
 ### 추가적으로 이해를 도울 sequence diagram을 첨부했습니다.     
 ![image](https://user-images.githubusercontent.com/45477589/102713470-d4462480-430b-11eb-9c63-3a4f5311ebef.png)     
   
-### 이하는 설치 및 구동 매뉴얼입니다. 프로젝트를 사용해 보고 싶으시다면 읽고 따라해보세요.    
+### 이하는 설치 및 구동 매뉴얼입니다. 프로젝트를 사용해 보고 싶으시다면 읽고 따라해보세요.
 test를 위한 input용 영상과 weights 파일은 원드라이브에 업로드 해 두었습니다. (6,7번에 링크 첨부)     
       
 1. 구글 colaboratory 사이트에 접속합니다.     
