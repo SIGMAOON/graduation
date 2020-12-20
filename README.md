@@ -9,4 +9,6 @@ kfc프로젝트는 오픈소스인 yolo를 기반으로 한 오버워치 게임�
 main-> getframe -> get feature -> distance -> machine learning
 추가적으로 이해를 도울 sequence diagram을 첨부했습니다.
 
+test를 위한 동영상과 weights파일은 원드라이브에 있어, 링크를 첨부했습니다.
+
 
