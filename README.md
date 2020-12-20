@@ -24,7 +24,7 @@ https://colab.research.google.com/
 2. 팝업창의 우측 하단에 있는 새 노트를 클릭합니다.     
 3. 상단메뉴의 런타임 - 런타임 유형 변경에서 하드웨어 가속기를 GPU로 변경합니다.     
 4. graduation 폴더 github로부터 가져옵니다.(git clone 코드를 colab에 입력)       
-##### !git clone https://github.com/SIGMAOON/graduation.git      
+> ##### !git clone https://github.com/SIGMAOON/graduation.git      
 5. 이때 colab의 경로 이동 문제가 발생하므로 graduation 폴더 밖으로 파일들 이동합니다. (mv 코드를 입력)     
 ##### !mv graduation/* ./     
 6. video 파일을 다운로드 후 압축을 풀어 data/video/ 경로에 넣습니다.     
