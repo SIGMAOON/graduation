@@ -20,7 +20,7 @@ main-> getframe -> get feature -> distance -> machine learning
 test를 위한 input용 영상과 weights 파일은 원드라이브에 업로드 해 두었습니다. (6,7번에 링크 첨부)     
       
 1. 구글 colaboratory 사이트에 접속합니다.     
-https://colab.research.google.com/      
+> https://colab.research.google.com/      
 2. 팝업창의 우측 하단에 있는 새 노트를 클릭합니다.     
 3. 상단메뉴의 런타임 - 런타임 유형 변경에서 하드웨어 가속기를 GPU로 변경합니다.     
 4. graduation 폴더 github로부터 가져옵니다.(git clone 코드를 colab에 입력)       
@@ -34,9 +34,7 @@ https://colab.research.google.com/
 8. 프로그램을 실행합니다.(pythoh 실행코드를 입력)       
 > ##### !python KFC.py      
 9. 영상 이름을 뒤에 확장자까지 입력합니다. (exam_normal.mp4은 정상 유저의 영상, exam_hack.mp4은 불법 프로그램 사용자의 영상)      
-> ex)
-> ##### exam_normal.mp4        
+> ex) ##### exam_normal.mp4        
 10. weights 파일 이름도 뒤에 확장자까지 입력합니다.       
 (obj_test_64000.weights은 프로젝트의 알고리즘 실행이 잘 보이도록 해당영상만을 학습한 파일, yolov3_51000.weights은 기존에 학습한 파일)          
-> ex)
-> ##### obj_test_64000.weights      
+> ex) ##### obj_test_64000.weights      
