@@ -36,5 +36,5 @@ test를 위한 input용 영상과 weights 파일은 원드라이브에 업로드
 9. 영상 이름을 뒤에 확장자까지 입력합니다. (exam_normal.mp4은 정상 유저의 영상, exam_hack.mp4은 불법 프로그램 사용자의 영상)      
 > ex) ##### exam_normal.mp4        
 10. weights 파일 이름도 뒤에 확장자까지 입력합니다.       
-(obj_test_64000.weights은 프로젝트의 알고리즘 실행이 잘 보이도록 해당영상만을 학습한 파일, yolov3_51000.weights은 기존에 학습한 파일)          
+(obj_test_64000.weights은 프로젝트의 알고리즘 실행이 잘 되는 지 확인하기 위하려 iput으로 사용한 영상만 학습시킨 파일, yolov3_51000.weights은 다양한 영상을 가지고 모든 캐릭터에 대하여 학습시킨 파일)          
 > ex) ##### obj_test_64000.weights      
